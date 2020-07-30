@@ -1,21 +1,26 @@
 sudo: required
+
+# Tell Travis we need docker
 services:
     - docker
 
+# Tell Travis to build the image using Dockerfile.dev
 before_install:
     - docker build -t singhabhinav/react-project -f Dockerfile_dev .
 
+# Tell Travis how to run test suite 
 script:
     - docker run -e CI=true singhabhinav/react-project npm run test
 
+# Tell Travis how to deploy code to AWS
 deploy:
-    provider: elasticbeanstalk
+    provider: elasticbeanstalk # We will deploy code to Elastic Beanstalk
     region: us-west-1 # Specify your region
-    app: "docker-react-project" # Copy it from Elastic Beanstalk dashboard
-    env: "DockerReactProject-env-2" # Copy it from Elastic Beanstalk dashboard
-    bucket_name: "elasticbeanstalk-us-west-1-034275272121"
-    bucket_path: "docker"
+    app: "react-project-docker" # Copy it from Elastic Beanstalk dashboard
+    env: "ReactProjectDocker-env" # Copy it from Elastic Beanstalk dashboard
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
+    bucket_name: "elasticbeanstalk-us-west-1-034275272121" # Elastic Beanstalk will take code from S3 bucket and deploy it in container. Take it from AWS S3
+    bucket_path: "docker" # Folder where Travis CI will upload the code in zip file in this folder. Take it from AWS S3
     on:
-        branch: master
+        branch: master # Deploy only when there are changes on master branch

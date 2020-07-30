@@ -4,7 +4,7 @@
 FROM node:alpine as builder
 
 # Specify WORKDIR
-WORKDIR '/app'
+WORKDIR '/react-project'
 
 # Copy the package.json from your work directory to the container's work directory
 # Until we copy the package.json file to container work directory, npm install will not work
@@ -25,4 +25,4 @@ RUN npm run build
 # Fetch nginx image from docker hub
 FROM nginx
 EXPOSE 80
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /react-project/build /usr/share/nginx/html
