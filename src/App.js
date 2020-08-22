@@ -11,7 +11,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload by Abhinav Singh & Devops Course Team.
         </p>
         <p>
-            Added one more line
+            Added one more line on master branch
         </p>
         <a
           className="App-link"
